@@ -4,19 +4,6 @@ let weapons;
 let armor;
 
 /*
- * Aktuell ausgerüstete Gegenstände
- */
-const equipment = {
-
-    weapon: null,
-
-    helmet: null,
-
-    chest: null
-
-};
-
-/*
  * Initialisierung
  */
 async function init(){
