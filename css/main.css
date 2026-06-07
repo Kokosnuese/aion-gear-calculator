@@ -73,3 +73,28 @@ main{
 
     min-width:200px;
 }
+
+.grade-common{
+
+    color:white;
+}
+
+.grade-rare{
+
+    color:#5fd3ff;
+}
+
+.grade-legend{
+
+    color:#ffae00;
+}
+
+.grade-unique{
+
+    color:#ff7b00;
+}
+
+.grade-epic{
+
+    color:#b04cff;
+}
