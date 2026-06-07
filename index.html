@@ -1,162 +1,136 @@
 <!DOCTYPE html>
-<html lang="de">
-
+<html lang="en">
 <head>
-
-<meta charset="UTF-8">
-
-<title>Aion Gear Calculator</title>
-
-<link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/calculator.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aion Gear Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<header>
-
-<div class="logo">
-
-AION 4 BUILDER
-
-</div>
-
+<!-- HEADER -->
+<header id="site-header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <img src="assets/ui/logo-placeholder.svg" alt="Aion Classic" class="logo-img" onerror="this.style.display='none'">
+      <span class="logo-text">AION <span class="logo-accent">GEAR</span></span>
+    </div>
+    <nav class="main-nav">
+      <a href="#" class="nav-link active">Gear Calculator</a>
+    </nav>
+  </div>
 </header>
 
-<div class="toolbar">
-
-<select id="classSelector">
-
-</select>
-
-</div>
-
-<div class="build-bar">
-
-<button>Set 1</button>
-
-<button>+ New Set</button>
-
-</div>
-
-<div class="tab-bar">
-
-<button class="active">
-Characteristics
-</button>
-
-<button>
-Amplification
-</button>
-
-<button>
-Comparison
-</button>
-
-</div>
-
-<div class="calculator">
-
-<div class="equipment-panel">
-
-<h2>Equipment</h2>
-
-<div class="equipment-panel">
-
-    <div class="character-header">
-
-        <h2 id="currentClass">
-            Gladiator
-        </h2>
-
+<!-- TOOLBAR -->
+<div id="toolbar">
+  <div class="toolbar-inner">
+    <div class="version-badge">Classic 5.0 · NA</div>
+    <div class="class-selector-wrap">
+      <label for="classSelector">Class:</label>
+      <select id="classSelector"></select>
     </div>
+  </div>
+</div>
 
-<div class="gear-layout">
+<!-- SET BAR -->
+<div id="set-bar">
+  <div id="set-tabs">
+    <!-- dynamically filled -->
+  </div>
+  <button id="addSetBtn" class="btn-add-set">+ Add Set</button>
+  <button id="saveShareBtn" class="btn-share">💾 Save &amp; Share</button>
+</div>
 
-    <div id="leftGearColumn">
+<!-- TAB BAR -->
+<div id="tab-bar">
+  <button class="tab-btn active" data-tab="characteristics">Characteristics</button>
+  <button class="tab-btn" data-tab="amplification">Amplification</button>
+  <button class="tab-btn" data-tab="comparison">Comparison</button>
+</div>
 
+<!-- MAIN CALCULATOR -->
+<div id="calculator">
+
+  <!-- LEFT: Equipment Panel -->
+  <div id="equipment-panel" class="panel">
+    <div class="panel-header">
+      <img id="classEmblem" src="" alt="" class="class-emblem">
+      <h2 id="className">Gladiator</h2>
     </div>
-
-    <div class="character-area">
-
-        <img
-        src="assets/ui/character.png"
-        id="characterImage">
-
+    <div id="gear-layout">
+      <div id="leftGearColumn"></div>
+      <div id="centerArea">
+        <img src="assets/ui/character.png" id="characterImage" alt="Character">
+        <div id="setBonusArea"></div>
+      </div>
+      <div id="rightGearColumn"></div>
     </div>
+  </div>
 
-    <div id="rightGearColumn">
-
+  <!-- RIGHT: Stats Panel -->
+  <div id="stats-panel" class="panel">
+    <!-- Tab: Characteristics -->
+    <div id="tab-characteristics" class="tab-content active">
+      <div class="stats-section" id="statsGeneral"></div>
+      <div class="stats-section" id="statsPvP"></div>
+      <div class="stats-section" id="statsOffense"></div>
+      <div class="stats-section" id="statsDefense"></div>
     </div>
+    <!-- Tab: Amplification -->
+    <div id="tab-amplification" class="tab-content">
+      <div class="amp-placeholder">
+        <p>Amplification planner coming soon.</p>
+      </div>
+    </div>
+    <!-- Tab: Comparison -->
+    <div id="tab-comparison" class="tab-content">
+      <div class="comp-placeholder">
+        <p>Select two sets to compare stats.</p>
+      </div>
+    </div>
+  </div>
 
 </div>
 
-</div>
-
-</div>
-
-<div class="stats-panel">
-
-<h2>Character Stats</h2>
-
-<div id="statsList">
-
-</div>
-
-</div>
-
-</div>
-<script src="js/dataService.js"></script>
-
-<script src="js/itemSearch.js"></script>
-
-<script src="js/gearEngine.js"></script>
-
-<script src="js/statsRenderer.js"></script>
-
-<script src="js/uiUpdater.js"></script>
-
-<script src="js/equipmentManager.js"></script>
-
-<script src="js/buildManager.js"></script>
-
-<script src="js/itemModal.js"></script>
-
-<script src="js/components/equipmentSlot.js"></script>
-
-<script src="js/components/tooltip.js"></script>
-
-<script src="js/classManager.js"></script>
-
-<script src="js/ui.js"></script>
-
-<script src="js/app.js"></script>
+<!-- ITEM MODAL -->
 <div id="itemModal">
-
-    <div id="itemModalContent">
-
-        <input
-        id="itemSearchInput"
-        type="text"
-        placeholder="Search Item">
-
-        <button
-        id="closeModal">
-
-            Close
-
-        </button>
-
-        <div id="itemResults">
-
-        </div>
-
+  <div id="itemModalContent">
+    <div class="modal-header">
+      <h3 id="modalSlotTitle">Select Item</h3>
+      <button id="closeModal" class="btn-close">✕</button>
     </div>
-
+    <input id="itemSearchInput" type="text" placeholder="Search item by name…" autocomplete="off">
+    <div id="itemResults"></div>
+  </div>
 </div>
-<div id="tooltip"></div>
-</body>
 
+<!-- TOOLTIP -->
+<div id="tooltip"></div>
+
+<!-- SHARE MODAL -->
+<div id="shareModal">
+  <div id="shareModalContent">
+    <div class="modal-header">
+      <h3>Share Build</h3>
+      <button id="closeShareModal" class="btn-close">✕</button>
+    </div>
+    <div class="modal-body" style="padding:16px;">
+      <p>Copy this URL to share your build:</p>
+      <div class="share-url-row">
+        <input id="shareUrlInput" type="text" readonly>
+        <button id="copyUrlBtn" class="btn-copy">Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
 </html>
