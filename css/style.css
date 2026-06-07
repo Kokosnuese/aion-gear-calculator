@@ -1,0 +1,901 @@
+/* ============================================================
+   AION GEAR CALCULATOR — style.css
+   Background: bright Aion world art + dark starfield equipment panel
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Hintergrund & Panel-Farben (angepasst ans helle BG-Bild) ── */
+  --bg-base:        transparent;
+  --bg-panel:       rgba(8, 14, 24, 0.82);
+  --bg-panel2:      rgba(5, 10, 18, 0.88);
+  --bg-slot:        rgba(6, 12, 22, 0.75);
+  --bg-hover:       rgba(20, 40, 70, 0.70);
+
+  /* ── Borders ── */
+  --border:         rgba(80, 140, 220, 0.22);
+  --border-light:   rgba(100, 170, 255, 0.35);
+  --border-gold:    rgba(180, 140, 60, 0.5);
+
+  /* ── Akzentfarben — Cyan/Blau passend zum hellen BG ── */
+  --gold:           #7ecfff;       /* Aion-Cyan statt Gold */
+  --gold-dim:       #4fa8e0;
+  --gold-glow:      rgba(126, 207, 255, 0.14);
+  --accent:         #4ecfff;
+  --accent2:        #a0e8ff;
+
+  /* ── Text ── */
+  --text:           #cde4f7;
+  --text-dim:       #7aa4c8;
+  --text-bright:    #e8f4ff;
+
+  /* ── Grade-Farben (Aion-typisch) ── */
+  --grade-common:   #d0dde8;
+  --grade-superior: #7ecfff;        /* Superior = Blau/Cyan */
+  --grade-heroic:   #63e87a;        /* Heroic = Grün */
+  --grade-fabled:   #e8d44d;        /* Fabled = Gelb/Gold */
+  --grade-eternal:  #ff9c30;        /* Eternal = Orange */
+  --grade-mythic:   #d060ff;        /* Mythic = Lila */
+  /* Alte Namen als Alias */
+  --grade-rare:     #7ecfff;
+  --grade-legend:   #e8d44d;
+  --grade-unique:   #ff9c30;
+  --grade-epic:     #d060ff;
+
+  --red:            #ff5e5e;
+  --green:          #60e87a;
+
+  --font-title:     'Cinzel', Georgia, serif;
+  --font-body:      'Rajdhani', 'Segoe UI', sans-serif;
+  --radius:         4px;
+  --transition:     0.15s ease;
+
+  /* ── Glasmorphismus-Werte ── */
+  --glass-blur:     12px;
+  --glass-blur-sm:  6px;
+}
+
+html { font-size: 14px; }
+
+body {
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 500;
+  min-height: 100vh;
+  font-size: 13.5px;
+
+  /* Aion-Weltbild als fester, vollflächiger Hintergrund */
+  background-color: #0a1520;
+  background-image: url('../assets/bg/aion-bg.webp');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* Dunkle Overlay-Schicht über dem Bild damit Text lesbar bleibt */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(2, 8, 20, 0.55) 0%,
+    rgba(4, 14, 30, 0.40) 30%,
+    rgba(4, 14, 30, 0.40) 70%,
+    rgba(2, 8, 20, 0.65) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > * { position: relative; z-index: 1; }
+
+/* ── HILFSMIXIN: Glassmorphismus ── */
+.glass {
+  background: var(--bg-panel);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border);
+}
+
+a { color: var(--gold); text-decoration: none; }
+a:hover { color: var(--text-bright); }
+
+select {
+  appearance: none;
+  background: rgba(6,14,28,0.80);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  color: var(--text-bright);
+  border: 1px solid var(--border-light);
+  padding: 6px 28px 6px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237aa4c8'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+}
+select:hover { border-color: var(--gold-dim); }
+select:focus { outline: none; border-color: var(--gold); }
+
+button {
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+#site-header {
+  background: rgba(3, 8, 18, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-light);
+  padding: 0 20px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  /* Leichter Cyan-Schimmer oben */
+  box-shadow: 0 1px 0 rgba(126,207,255,0.12), 0 4px 24px rgba(0,0,0,0.5);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-img { height: 32px; }
+.logo-text {
+  font-family: var(--font-title);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-bright);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(126,207,255,0.4);
+}
+.logo-accent {
+  color: var(--gold);
+  text-shadow: 0 0 16px rgba(126,207,255,0.6);
+}
+
+.main-nav { display: flex; gap: 6px; }
+.nav-link {
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: var(--transition);
+  border: 1px solid transparent;
+}
+.nav-link:hover {
+  color: var(--text-bright);
+  background: rgba(126,207,255,0.08);
+  border-color: var(--border);
+}
+.nav-link.active {
+  color: var(--gold);
+  border-color: var(--border-light);
+  background: rgba(126,207,255,0.08);
+}
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+#toolbar {
+  background: rgba(3,8,18,0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 20px;
+}
+.toolbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.version-badge {
+  background: rgba(126,207,255,0.1);
+  border: 1px solid var(--border-light);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+.class-selector-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   SET BAR
+   ============================================================ */
+#set-bar {
+  background: rgba(3,8,18,0.60);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#set-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.set-tab {
+  padding: 5px 14px;
+  border: 1px solid var(--border-light);
+  background: rgba(10,22,45,0.7);
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+.set-tab:hover { border-color: var(--gold-dim); color: var(--text); }
+.set-tab.active {
+  background: rgba(126,207,255,0.12);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.btn-add-set {
+  padding: 5px 12px;
+  border: 1px dashed var(--border-light);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+.btn-add-set:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  background: var(--gold-glow);
+}
+.btn-share {
+  margin-left: auto;
+  padding: 5px 14px;
+  border: 1px solid var(--gold-dim);
+  background: var(--gold-glow);
+  color: var(--gold);
+  font-size: 12px;
+}
+.btn-share:hover {
+  background: rgba(126,207,255,0.22);
+  border-color: var(--gold);
+  color: var(--text-bright);
+}
+
+/* ============================================================
+   TAB BAR
+   ============================================================ */
+#tab-bar {
+  background: rgba(3,8,18,0.60);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex;
+  gap: 0;
+}
+.tab-btn {
+  padding: 10px 18px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 0;
+  transition: var(--transition);
+}
+.tab-btn:hover { color: var(--text-bright); background: rgba(126,207,255,0.04); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ============================================================
+   MAIN LAYOUT
+   ============================================================ */
+#calculator {
+  display: grid;
+  /* Linke Spalte: equipment-panel bekommt feste Mindestbreite damit
+     beide Slot-Spalten reinpassen. Rechts: stats-panel flexibel */
+  grid-template-columns: minmax(380px, 460px) 1fr;
+  gap: 14px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  align-items: start;
+}
+
+/* ============================================================
+   PANELS (Glasmorphismus)
+   ============================================================ */
+.panel {
+  background: rgba(6, 14, 28, 0.78);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  /* overflow:visible statt hidden — verhindert Abschneiden der rechten Slots */
+  overflow: visible;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.45),
+    0 0 0 1px rgba(126,207,255,0.06) inset;
+}
+/* Equipment-Panel braucht overflow:hidden für den Bild-Clip, aber
+   gear-layout muss sichtbar bleiben → Inner-Wrapper-Trick */
+#equipment-panel {
+  overflow: hidden;
+}
+.panel-header {
+  background: rgba(4, 10, 22, 0.85);
+  border-bottom: 1px solid var(--border-light);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.class-emblem {
+  width: 36px;
+  height: 36px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 6px rgba(126,207,255,0.4));
+}
+.panel-header h2 {
+  font-family: var(--font-title);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 12px rgba(126,207,255,0.3);
+}
+
+/* ============================================================
+   EQUIPMENT PANEL — Sternenhimmel-Hintergrund
+   ============================================================ */
+#equipment-panel {
+  /* Sternenhimmel-Bild als Panel-Hintergrund */
+  background-image: url('../assets/bg/equipment-bg.webp');
+  background-size: cover;
+  background-position: center top;
+  /* Glasschicht drüber */
+  position: relative;
+}
+#equipment-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 8, 20, 0.45);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 8px;
+}
+#equipment-panel > * { position: relative; z-index: 1; }
+
+/* ============================================================
+   GEAR LAYOUT — beide Slot-Spalten immer vollständig sichtbar
+   ============================================================ */
+#gear-layout {
+  display: grid;
+  /* Slot-Spalten: 1fr je Seite, Mitte fix auf Charakterbild-Breite */
+  grid-template-columns: 1fr 120px 1fr;
+  gap: 6px;
+  padding: 10px;
+  align-items: start;
+  /* Wichtig: kein min-width:0 Problem durch explizite Box-Sizing */
+  width: 100%;
+  box-sizing: border-box;
+}
+#leftGearColumn,
+#rightGearColumn {
+  /* min-width:0 verhindert dass Flex/Grid-Items über ihren Container hinausgehen */
+  min-width: 0;
+  width: 100%;
+}
+#centerArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+}
+#characterImage {
+  width: 112px;
+  image-rendering: pixelated;
+  filter:
+    drop-shadow(0 0 16px rgba(126,207,255,0.25))
+    drop-shadow(0 0 4px rgba(126,207,255,0.15));
+}
+
+/* ============================================================
+   EQUIPMENT SLOTS
+   ============================================================ */
+.equipment-slot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  margin-bottom: 3px;
+  background: rgba(4, 10, 24, 0.65);
+  border: 1px solid rgba(80,140,220,0.28);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  min-height: 44px;
+  position: relative;
+  /* Slots nie über Panel-Rand hinaus */
+  min-width: 0;
+  overflow: hidden;
+}
+.equipment-slot:hover {
+  border-color: var(--gold-dim);
+  background: rgba(20, 50, 100, 0.65);
+  box-shadow: 0 0 10px rgba(126,207,255,0.15);
+}
+.equipment-slot.has-item {
+  border-color: rgba(100,170,255,0.45);
+  background: rgba(8, 18, 40, 0.70);
+}
+.equipment-slot.has-item:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(126,207,255,0.2);
+}
+
+.slot-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+.slot-icon img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: brightness(0.55) sepia(0.2) hue-rotate(180deg);
+  transition: var(--transition);
+}
+.equipment-slot:hover .slot-icon img,
+.equipment-slot.has-item .slot-icon img {
+  filter: brightness(1.0) sepia(0) hue-rotate(0deg) drop-shadow(0 0 4px rgba(126,207,255,0.3));
+}
+
+.slot-content {
+  flex: 1;
+  min-width: 0;   /* verhindert Overflow aus dem Flex-Container */
+}
+.slot-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.slot-item {
+  font-size: 11px;
+  color: rgba(160,200,240,0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  margin-top: 1px;
+}
+.slot-item.has-item { color: var(--text-bright); }
+
+/* Aion Grade-Farben */
+.slot-item.grade-common   { color: var(--grade-common); }
+.slot-item.grade-superior { color: var(--grade-superior); }
+.slot-item.grade-rare     { color: var(--grade-rare); }
+.slot-item.grade-heroic   { color: var(--grade-heroic); }
+.slot-item.grade-legend,
+.slot-item.grade-fabled   { color: var(--grade-fabled); }
+.slot-item.grade-unique,
+.slot-item.grade-eternal  { color: var(--grade-eternal); }
+.slot-item.grade-epic,
+.slot-item.grade-mythic   { color: var(--grade-mythic); }
+
+.slot-clear {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: none;
+  background: rgba(255,80,80,0.2);
+  color: var(--red);
+  border-radius: 3px;
+  font-size: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+.equipment-slot.has-item:hover .slot-clear { display: flex; }
+.slot-clear:hover { background: var(--red); color: white; }
+
+/* ============================================================
+   SET BONUS AREA
+   ============================================================ */
+#setBonusArea {
+  width: 100%;
+  font-size: 11px;
+}
+.set-bonus-item {
+  background: rgba(6,16,36,0.75);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 5px 8px;
+  margin-bottom: 4px;
+  color: var(--text-dim);
+}
+.set-bonus-active {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  background: rgba(126,207,255,0.08);
+  box-shadow: 0 0 8px rgba(126,207,255,0.08) inset;
+}
+.set-bonus-name  { font-weight: 700; font-size: 11px; }
+.set-bonus-pieces { font-size: 10px; color: var(--text-dim); }
+
+/* ============================================================
+   STATS PANEL (rechts)
+   ============================================================ */
+#stats-panel {}
+
+.tab-content { display: none; padding: 12px 14px; }
+.tab-content.active { display: block; }
+
+.stats-section { margin-bottom: 14px; }
+.stats-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: var(--transition);
+  gap: 12px;
+}
+.stat-row:hover { background: rgba(126,207,255,0.06); }
+.stat-row:nth-child(even) { background: rgba(255,255,255,0.018); }
+.stat-row:nth-child(even):hover { background: rgba(126,207,255,0.06); }
+
+.stat-name {
+  color: var(--text-dim);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.stat-value {
+  color: var(--text-bright);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+.stat-value.buffed { color: var(--green); }
+
+/* ============================================================
+   ITEM MODAL
+   ============================================================ */
+#itemModal, #shareModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,5,15,0.80);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;
+  z-index: 1000;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 60px;
+}
+#itemModal.open, #shareModal.open { display: flex; }
+
+#itemModalContent, #shareModalContent {
+  background: rgba(5, 12, 28, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  width: 680px;
+  max-height: 75vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 24px 80px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(126,207,255,0.08) inset;
+  animation: modalSlide 0.18s ease;
+}
+@keyframes modalSlide {
+  from { transform: translateY(-12px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+#shareModalContent { width: 480px; max-height: none; }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-light);
+  background: rgba(4, 10, 24, 0.90);
+}
+.modal-header h3 {
+  font-family: var(--font-title);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+
+.btn-close {
+  width: 28px; height: 28px;
+  border: 1px solid var(--border-light);
+  background: rgba(10,20,40,0.8);
+  color: var(--text-dim);
+  font-size: 14px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0; line-height: 1;
+}
+.btn-close:hover { border-color: var(--red); color: var(--red); background: rgba(255,80,80,0.12); }
+
+#itemSearchInput {
+  width: 100%;
+  background: rgba(6,14,30,0.90);
+  border: none;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-bright);
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+}
+#itemSearchInput::placeholder { color: var(--text-dim); }
+#itemSearchInput:focus { background: rgba(8,18,38,0.95); }
+
+#itemResults {
+  overflow-y: auto;
+  flex: 1;
+  padding: 6px 0;
+}
+#itemResults::-webkit-scrollbar { width: 5px; }
+#itemResults::-webkit-scrollbar-track { background: rgba(4,10,24,0.5); }
+#itemResults::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  border-bottom: 1px solid transparent;
+}
+.item-row:hover {
+  background: rgba(20, 50, 100, 0.55);
+  border-bottom-color: var(--border);
+}
+.item-icon {
+  width: 36px; height: 36px;
+  background: rgba(6,14,30,0.8);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.item-icon img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+.item-info { flex: 1; }
+.item-name {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.item-name.grade-common   { color: var(--grade-common); }
+.item-name.grade-superior,
+.item-name.grade-rare     { color: var(--grade-rare); }
+.item-name.grade-heroic   { color: var(--grade-heroic); }
+.item-name.grade-fabled,
+.item-name.grade-legend   { color: var(--grade-legend); }
+.item-name.grade-eternal,
+.item-name.grade-unique   { color: var(--grade-unique); }
+.item-name.grade-mythic,
+.item-name.grade-epic     { color: var(--grade-epic); }
+
+.item-stats-preview {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+.item-grade-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+.grade-badge-superior { color: var(--grade-rare);    background: rgba(126,207,255,0.10); }
+.grade-badge-rare     { color: var(--grade-rare);    background: rgba(126,207,255,0.10); }
+.grade-badge-heroic   { color: var(--grade-heroic);  background: rgba(99,232,122,0.10); }
+.grade-badge-fabled,
+.grade-badge-legend   { color: var(--grade-legend);  background: rgba(232,212,77,0.10); }
+.grade-badge-eternal,
+.grade-badge-unique   { color: var(--grade-unique);  background: rgba(255,156,48,0.10); }
+.grade-badge-mythic,
+.grade-badge-epic     { color: var(--grade-epic);    background: rgba(208,96,255,0.10); }
+
+.modal-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+/* ============================================================
+   TOOLTIP
+   ============================================================ */
+#tooltip {
+  position: fixed;
+  display: none;
+  background: rgba(4, 10, 26, 0.97);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 12px 14px;
+  z-index: 9999;
+  pointer-events: none;
+  min-width: 220px;
+  max-width: 280px;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(126,207,255,0.06) inset;
+}
+.tt-name {
+  font-family: var(--font-title);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.tt-divider {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin-bottom: 8px;
+}
+.tt-stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 2px 0;
+}
+.tt-stat span:last-child { color: var(--text-bright); }
+.tt-type { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }
+
+/* ============================================================
+   SHARE MODAL
+   ============================================================ */
+#shareModalContent { padding: 0; }
+#shareModalContent .modal-body { padding: 16px; }
+#shareModalContent p { color: var(--text-dim); font-size: 13px; margin-bottom: 10px; }
+.share-url-row { display: flex; gap: 8px; }
+#shareUrlInput {
+  flex: 1;
+  background: rgba(6,14,30,0.9);
+  border: 1px solid var(--border-light);
+  color: var(--text-bright);
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 12px;
+  outline: none;
+}
+.btn-copy {
+  padding: 8px 16px;
+  background: var(--gold-glow);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  font-size: 12px;
+}
+.btn-copy:hover { background: rgba(126,207,255,0.2); }
+.btn-copy.copied { color: var(--green); border-color: var(--green); background: rgba(96,232,122,0.1); }
+
+/* ============================================================
+   PLACEHOLDERS
+   ============================================================ */
+.amp-placeholder, .comp-placeholder {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 13px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  margin: 8px;
+}
+
+/* ============================================================
+   RESPONSIVE — Equipment-Panel nie abschneiden
+   ============================================================ */
+@media (max-width: 1100px) {
+  #calculator {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+}
+@media (max-width: 700px) {
+  #gear-layout {
+    grid-template-columns: 1fr 90px 1fr;
+    gap: 4px;
+    padding: 8px;
+  }
+  .slot-icon, .slot-icon img { width: 28px; height: 28px; }
+  .equipment-slot { padding: 3px 4px; min-height: 38px; gap: 4px; }
+  #characterImage { width: 90px; }
+  #itemModalContent { width: 95vw; }
+}
+@media (max-width: 480px) {
+  #gear-layout { grid-template-columns: 1fr 70px 1fr; }
+  .slot-label { display: none; }
+  #characterImage { width: 70px; }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: rgba(4,10,24,0.4); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
