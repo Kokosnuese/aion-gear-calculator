@@ -1,34 +1,32 @@
-async function loadClasses(){
+function getCurrentClass(){
 
-    const response =
-        await fetch(
-            "data/classes.json"
-        );
-
-    return await response.json();
-}
-
-function updateClassPortrait(){
-
-    const classId =
-        document
+    return document
         .getElementById(
             "classSelector"
         )
         .value;
 
-    const img =
-        document.getElementById(
-            "characterImage"
+}
+
+function onClassChange(){
+
+    updateClassPortrait();
+
+    refreshWeaponList();
+
+    updateStats();
+
+}
+
+function bindClassEvents(){
+
+    document
+        .getElementById(
+            "classSelector"
+        )
+        .addEventListener(
+            "change",
+            onClassChange
         );
-
-    if(
-        classPortraits[classId]
-    ){
-
-        img.src =
-            classPortraits[classId];
-
-    }
 
 }
