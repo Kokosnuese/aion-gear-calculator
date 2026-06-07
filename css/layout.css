@@ -1,0 +1,56 @@
+header{
+
+    background:#262626;
+
+    padding:15px 20px;
+
+    border-bottom:1px solid #444;
+}
+
+.logo{
+
+    font-size:22px;
+
+    font-weight:bold;
+}
+
+.toolbar{
+
+    padding:10px 20px;
+
+    border-bottom:1px solid #333;
+}
+
+.build-bar{
+
+    padding:10px 20px;
+
+    border-bottom:1px solid #333;
+}
+
+.tab-bar{
+
+    padding:10px 20px;
+
+    border-bottom:1px solid #333;
+
+    display:flex;
+
+    gap:10px;
+}
+
+.tab-bar button{
+
+    background:#333;
+
+    color:white;
+
+    border:none;
+
+    padding:8px 15px;
+}
+
+.tab-bar button.active{
+
+    background:#4a4a4a;
+}
