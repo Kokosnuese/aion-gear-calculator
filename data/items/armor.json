@@ -1,0 +1,25 @@
+[
+  {
+    "id":2001,
+
+    "name":"Tahabata Helmet",
+
+    "slot":"helmet",
+
+    "hp":150,
+
+    "crit":20
+  },
+
+  {
+    "id":2002,
+
+    "name":"Tahabata Breastplate",
+
+    "slot":"chest",
+
+    "hp":300,
+
+    "crit":10
+  }
+]
