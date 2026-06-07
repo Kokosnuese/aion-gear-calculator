@@ -49,16 +49,9 @@ function loadItemsForSlot(slot){
 
         case "weapon":
 
-            const classId =
-                document
-                .getElementById(
-                    "classSelector"
-                )
-                .value;
-
             items =
                 getWeaponsForClass(
-                    classId
+                    getCurrentClass()
                 );
 
             break;
@@ -74,6 +67,17 @@ function loadItemsForSlot(slot){
 
             break;
 
+        case "shoulders":
+
+            items =
+                armor.filter(
+                    item =>
+                        item.slot ===
+                        "shoulders"
+                );
+
+            break;
+
         case "chest":
 
             items =
@@ -85,18 +89,48 @@ function loadItemsForSlot(slot){
 
             break;
 
+        case "gloves":
+
+            items =
+                armor.filter(
+                    item =>
+                        item.slot ===
+                        "gloves"
+                );
+
+            break;
+
+        case "pants":
+
+            items =
+                armor.filter(
+                    item =>
+                        item.slot ===
+                        "pants"
+                );
+
+            break;
+
+        case "boots":
+
+            items =
+                armor.filter(
+                    item =>
+                        item.slot ===
+                        "boots"
+                );
+
+            break;
+
         default:
 
             items = [];
 
     }
 
-    currentItems =
-        items;
+    currentItems = items;
 
-    renderItemList(
-        items
-    );
+    renderItemList(items);
 
 }
 
