@@ -1,0 +1,22 @@
+{
+  "gladiator": {
+    "hp": 10000,
+    "attack": 100,
+    "crit": 50,
+    "accuracy": 1200
+  },
+
+  "templar": {
+    "hp": 11000,
+    "attack": 90,
+    "crit": 40,
+    "accuracy": 1100
+  },
+
+  "assassin": {
+    "hp": 8500,
+    "attack": 115,
+    "crit": 120,
+    "accuracy": 1300
+  }
+}
