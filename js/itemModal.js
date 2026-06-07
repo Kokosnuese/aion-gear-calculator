@@ -1,38 +1,21 @@
-function openItemModal(slot){
+let currentSlot = null;
 
-    console.log(
-        "Select item for",
-        slot
-    );
+function openItemModal(
+    slot
+){
 
-}
-function filterModalItems(){
+    currentSlot = slot;
 
-    const search =
-        document
-        .getElementById(
-            "itemSearchInput"
-        )
-        .value
-        .toLowerCase();
-
-    const rows =
-        document.querySelectorAll(
-            ".item-row"
+    const modal =
+        document.getElementById(
+            "itemModal"
         );
 
-    rows.forEach(row => {
+    modal.style.display =
+        "block";
 
-        row.style.display =
-
-            row.textContent
-            .toLowerCase()
-            .includes(search)
-
-            ? ""
-
-            : "none";
-
-    });
+    loadItemsForSlot(
+        slot
+    );
 
 }
