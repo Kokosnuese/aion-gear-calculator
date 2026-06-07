@@ -146,3 +146,19 @@ function searchItems(
 
     padding:5px 10px;
 }
+#tooltip{
+
+    position:fixed;
+
+    display:none;
+
+    background:#111;
+
+    border:1px solid #666;
+
+    padding:10px;
+
+    z-index:9999;
+
+    min-width:200px;
+}
