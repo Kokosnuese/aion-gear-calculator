@@ -121,6 +121,24 @@ function loadItemsForSlot(slot){
                 );
 
             break;
+        case "necklace":
+
+case "earring1":
+
+case "earring2":
+
+case "ring1":
+
+case "ring2":
+
+case "belt":
+
+    items =
+        getAccessoriesForSlot(
+            slot
+        );
+
+    break;
 
         default:
 
