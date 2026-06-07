@@ -249,3 +249,52 @@ function openShareModal(url) {
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+// ── AMPLIFICATION TAB ────────────────────────────────────────
+
+/**
+ * Render the skill checklist for the Amplification tab.
+ * activeSkillIds: Set of currently active skill IDs.
+ * onToggle(skillId): callback when a skill is toggled.
+ */
+function renderAmpPanel(classId, activeSkillIds, onToggle) {
+  const container = document.getElementById('amp-skills');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const skills = CLASS_SKILLS[classId] || [];
+  if (skills.length === 0) {
+    container.innerHTML = '<div class="amp-empty">No passive skills available for this class.</div>';
+    return;
+  }
+
+  skills.forEach(skill => {
+    const active = activeSkillIds.has(skill.id);
+
+    const row = document.createElement('div');
+    row.className = 'amp-row' + (active ? ' amp-active' : '');
+    row.dataset.id = skill.id;
+
+    // Build stat preview string
+    const statPreview = Object.entries(skill.stats)
+      .map(([k, v]) => {
+        const name = STAT_NAMES[k] || k;
+        const sign = (typeof v === 'number' && v > 0) ? '+' : '';
+        return `${name}: ${sign}${typeof v === 'number' ? v.toLocaleString('en-US') : v}`;
+      })
+      .join('  ·  ');
+
+    row.innerHTML = `
+      <div class="amp-check ${active ? 'checked' : ''}">
+        ${active ? '✓' : ''}
+      </div>
+      <div class="amp-info">
+        <div class="amp-name">${skill.name}</div>
+        <div class="amp-stats">${statPreview}</div>
+      </div>
+    `;
+
+    row.addEventListener('click', () => onToggle(skill.id));
+    container.appendChild(row);
+  });
+}

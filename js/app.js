@@ -1,23 +1,22 @@
 /* ============================================================
-   app.js — Main application controller  v3
+   app.js — Main application controller  (Aion 4.x EU)
    ============================================================ */
 
 const EMPTY_EQUIPMENT = () => ({
-  helmet: null, shoulders: null, chest: null, gloves: null,
-  pants: null, boots: null, wings: null, weapon: null,
-  subWeapon: null, necklace: null, earring1: null, earring2: null,
-  ring1: null, ring2: null, belt: null
+  helmet:null, shoulders:null, chest:null, gloves:null,
+  pants:null, boots:null, wings:null, weapon:null,
+  subWeapon:null, necklace:null, earring1:null, earring2:null,
+  ring1:null, ring2:null, belt:null
 });
 
 const App = (() => {
-  let classId      = 'gladiator';
-  let activeSet    = 0;
-  let currentSlot  = null;
-  let currentItems = [];
+  let classId         = 'gladiator';
+  let activeSet       = 0;
+  let currentSlot     = null;
+  let currentItems    = [];
+  let activeSkillIds  = new Set();   // skills toggled ON in Amplification tab
 
-  let sets = [
-    { name: 'Set 1', equipment: EMPTY_EQUIPMENT() }
-  ];
+  let sets = [{ name: 'Set 1', equipment: EMPTY_EQUIPMENT() }];
 
   // ── INIT ────────────────────────────────────────────────────
 
@@ -34,18 +33,20 @@ const App = (() => {
     if (!hash) return;
     const build = deserializeBuild(hash);
     if (!build) return;
-    classId   = build.classId;
-    sets      = build.sets;
-    activeSet = 0;
+    classId        = build.classId;
+    sets           = build.sets;
+    activeSet      = 0;
+    activeSkillIds = new Set(build.activeSkillIds || []);
   }
 
   function loadFromStorage() {
     try {
-      const saved = localStorage.getItem('aiongear_state');
+      const saved = localStorage.getItem('aiongear_v2');
       if (!saved) return;
-      const data = JSON.parse(saved);
+      const data  = JSON.parse(saved);
       if (data.classId) classId = data.classId;
-      if (data.sets && data.sets.length) {
+      if (Array.isArray(data.skills)) activeSkillIds = new Set(data.skills);
+      if (data.sets?.length) {
         const allItems = [...ITEMS.weapons, ...ITEMS.armor, ...ITEMS.accessories];
         sets = data.sets.map(s => {
           const eq = {};
@@ -60,53 +61,53 @@ const App = (() => {
 
   function saveToStorage() {
     try {
-      const data = {
+      localStorage.setItem('aiongear_v2', JSON.stringify({
         classId,
+        skills: [...activeSkillIds],
         sets: sets.map(s => ({
           name: s.name,
           equipment: Object.fromEntries(
-            Object.entries(s.equipment).map(([slot, item]) => [slot, item ? item.id : null])
+            Object.entries(s.equipment).map(([slot, item]) => [slot, item?.id ?? null])
           )
         }))
-      };
-      localStorage.setItem('aiongear_state', JSON.stringify(data));
+      }));
     } catch {}
   }
 
   // ── RENDER ──────────────────────────────────────────────────
 
   function renderAll() {
-    // Klassen-Selector im Equipment-Panel Header
+    // Selector sync
     const sel = document.getElementById('classSelector');
     if (sel) sel.value = classId;
 
-    // Klassen-Emblem aktualisieren
-    const emblemEl = document.getElementById('classEmblem');
-    if (emblemEl) {
-      emblemEl.src = CLASS_EMBLEMS[classId] || '';
-      emblemEl.alt = classId;
-    }
+    // Emblem
+    const emblem = document.getElementById('classEmblem');
+    if (emblem) { emblem.src = CLASS_EMBLEMS[classId] || ''; emblem.alt = classId; }
 
-    const eq = currentEquipment();
+    const eq     = currentEquipment();
+    const stats  = calculateStats(classId, eq, [...activeSkillIds]);
+    const base   = BASE_STATS[classId] || BASE_STATS.gladiator;
 
     buildEquipmentSlots(eq);
-
-    const stats = calculateStats(classId, eq);
-    const base  = BASE_STATS[classId] || BASE_STATS.gladiator;
     renderStats(stats, base);
-
     renderSetBonuses(eq);
     renderSetTabs(sets, activeSet);
+
+    // Amplification tab (re-render if visible)
+    renderAmpPanel(classId, activeSkillIds, toggleSkill);
   }
 
   function currentEquipment() {
-    return sets[activeSet] ? sets[activeSet].equipment : EMPTY_EQUIPMENT();
+    return sets[activeSet]?.equipment ?? EMPTY_EQUIPMENT();
   }
 
   // ── CLASS ───────────────────────────────────────────────────
 
   function onClassChange() {
     classId = document.getElementById('classSelector').value;
+    // Reset skill selection when class changes
+    activeSkillIds.clear();
     saveToStorage();
     renderAll();
   }
@@ -116,12 +117,24 @@ const App = (() => {
     if (!sel) return;
     sel.innerHTML = '';
     CLASSES.forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c.id;
+      const opt   = document.createElement('option');
+      opt.value   = c.id;
       opt.textContent = c.name;
       sel.appendChild(opt);
     });
     sel.value = classId;
+  }
+
+  // ── SKILLS ─────────────────────────────────────────────────
+
+  function toggleSkill(skillId) {
+    if (activeSkillIds.has(skillId)) {
+      activeSkillIds.delete(skillId);
+    } else {
+      activeSkillIds.add(skillId);
+    }
+    saveToStorage();
+    renderAll();
   }
 
   // ── SETS ────────────────────────────────────────────────────
@@ -144,12 +157,10 @@ const App = (() => {
   function openModal(slot) {
     currentSlot  = slot;
     currentItems = getItemsForSlot(slot, classId);
-
     const titleEl  = document.getElementById('modalSlotTitle');
     const searchEl = document.getElementById('itemSearchInput');
     if (titleEl)  titleEl.textContent = SLOT_LABELS[slot] || slot;
     if (searchEl) { searchEl.value = ''; searchEl.focus(); }
-
     renderItemList(currentItems, slot);
     document.getElementById('itemModal').classList.add('open');
   }
@@ -160,15 +171,13 @@ const App = (() => {
   }
 
   function equipItem(slot, item) {
-    const eq = currentEquipment();
-    eq[slot] = item;
+    currentEquipment()[slot] = item;
     saveToStorage();
     renderAll();
   }
 
   function clearSlot(slot) {
-    const eq = currentEquipment();
-    eq[slot] = null;
+    currentEquipment()[slot] = null;
     saveToStorage();
     renderAll();
   }
@@ -182,74 +191,56 @@ const App = (() => {
   // ── SHARE ───────────────────────────────────────────────────
 
   function doShare() {
-    const hash = serializeBuild(classId, sets);
-    const url  = window.location.origin + window.location.pathname + '#' + hash;
+    const hash = serializeBuild(classId, sets, [...activeSkillIds]);
+    const url  = location.origin + location.pathname + '#' + hash;
     openShareModal(url);
   }
 
   // ── EVENTS ──────────────────────────────────────────────────
 
   function bindGlobalEvents() {
-    // Klassen-Dropdown im Panel-Header
-    document.getElementById('classSelector')
-      .addEventListener('change', onClassChange);
+    document.getElementById('classSelector').addEventListener('change', onClassChange);
 
-    // Stats-Tab-Buttons (jetzt innerhalb #stats-panel)
     document.querySelectorAll('#stats-tab-bar .tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('#stats-tab-bar .tab-btn')
-          .forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#stats-tab-bar .tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.querySelectorAll('.tab-content')
-          .forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
         const target = document.getElementById('tab-' + btn.dataset.tab);
         if (target) target.classList.add('active');
       });
     });
 
-    // Set-Panel Buttons
-    document.getElementById('addSetBtn')
-      .addEventListener('click', addSet);
-    document.getElementById('saveShareBtn')
-      .addEventListener('click', doShare);
+    document.getElementById('addSetBtn').addEventListener('click', addSet);
+    document.getElementById('saveShareBtn').addEventListener('click', doShare);
 
-    // Item Modal
-    document.getElementById('closeModal')
-      .addEventListener('click', closeModal);
-    document.getElementById('itemModal')
-      .addEventListener('click', e => {
-        if (e.target === document.getElementById('itemModal')) closeModal();
-      });
-    document.getElementById('itemSearchInput')
-      .addEventListener('input', filterItems);
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('itemModal').addEventListener('click', e => {
+      if (e.target === document.getElementById('itemModal')) closeModal();
+    });
+    document.getElementById('itemSearchInput').addEventListener('input', filterItems);
 
-    // Share Modal
-    document.getElementById('closeShareModal')
-      .addEventListener('click', () => {
+    document.getElementById('closeShareModal').addEventListener('click', () => {
+      document.getElementById('shareModal').classList.remove('open');
+    });
+    document.getElementById('shareModal').addEventListener('click', e => {
+      if (e.target === document.getElementById('shareModal'))
         document.getElementById('shareModal').classList.remove('open');
-      });
-    document.getElementById('shareModal')
-      .addEventListener('click', e => {
-        if (e.target === document.getElementById('shareModal'))
-          document.getElementById('shareModal').classList.remove('open');
-      });
-    document.getElementById('copyUrlBtn')
-      .addEventListener('click', () => {
-        const input = document.getElementById('shareUrlInput');
-        input.select();
-        navigator.clipboard.writeText(input.value).catch(() => {});
-        const btn = document.getElementById('copyUrlBtn');
-        btn.textContent = '✓ Copied!';
-        btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
-      });
+    });
+    document.getElementById('copyUrlBtn').addEventListener('click', () => {
+      const input = document.getElementById('shareUrlInput');
+      input.select();
+      navigator.clipboard.writeText(input.value).catch(() => {});
+      const btn = document.getElementById('copyUrlBtn');
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
 
-    // Escape schließt Modals
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        closeModal();
-        document.getElementById('shareModal').classList.remove('open');
-      }
+      if (e.key !== 'Escape') return;
+      closeModal();
+      document.getElementById('shareModal').classList.remove('open');
     });
   }
 
