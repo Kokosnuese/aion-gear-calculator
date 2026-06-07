@@ -10,25 +10,31 @@ async function init(){
 
     try{
 
+        console.log("1 classes");
         classes =
             await loadJSON(
                 "data/classes.json"
             );
 
+        console.log("2 baseStats");
         baseStats =
             await loadJSON(
                 "data/baseStats.json"
             );
 
+        console.log("3 weapons");
         weapons =
             await loadJSON(
                 "data/items/weapons.json"
             );
 
+        console.log("4 armor");
         armor =
             await loadJSON(
                 "data/items/armor.json"
             );
+
+        console.log("5 populateClasses");
 
         populateClasses();
 
