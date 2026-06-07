@@ -1,61 +1,81 @@
 let classes;
-
 let baseStats;
-
 let weapons;
-
 let armor;
 
-let equipment = {
+/*
+ * Aktuell ausgerüstete Gegenstände
+ */
+const equipment = {
 
-    weapon:null,
+    weapon: null,
 
-    helmet:null,
+    helmet: null,
 
-    chest:null
+    chest: null
 
 };
 
+/*
+ * Initialisierung
+ */
 async function init(){
 
-    classes =
-        await loadJSON(
-            "data/classes.json"
+    try{
+
+        classes =
+            await loadJSON(
+                "data/classes.json"
+            );
+
+        baseStats =
+            await loadJSON(
+                "data/baseStats.json"
+            );
+
+        weapons =
+            await loadJSON(
+                "data/items/weapons.json"
+            );
+
+        armor =
+            await loadJSON(
+                "data/items/armor.json"
+            );
+
+        populateClasses();
+
+        createWeaponSlot([]);
+
+        refreshWeaponList();
+
+        bindEvents();
+
+        updateStats();
+
+    }
+    catch(error){
+
+        console.error(
+            "Init Fehler:",
+            error
         );
 
-    baseStats =
-        await loadJSON(
-            "data/baseStats.json"
-        );
-
-    weapons =
-        await loadJSON(
-            "data/items/weapons.json"
-        );
-
-    armor =
-        await loadJSON(
-            "data/items/armor.json"
-        );
-
-    populateClasses();
-
-    createWeaponSlot(
-        weapons
-    );
-
-    bindEvents();
-
-    updateStats();
+    }
 
 }
 
+/*
+ * Klassen Dropdown füllen
+ */
 function populateClasses(){
 
     const selector =
         document.getElementById(
             "classSelector"
         );
+
+    selector.innerHTML = "";
 
     classes.forEach(c => {
 
@@ -78,28 +98,152 @@ function populateClasses(){
 
 }
 
-function bindEvents(){
+/*
+ * Waffen für aktuelle Klasse filtern
+ */
+function getWeaponsForClass(
+    classId
+){
 
-    document
-    .getElementById(
-        "weaponSelect"
-    )
-    .addEventListener(
-        "change",
-        updateStats
-    );
+    return weapons.filter(
+        weapon => {
 
-    document
-    .getElementById(
-        "classSelector"
-    )
-    .addEventListener(
-        "change",
-        updateStats
+            if(!weapon.class)
+                return false;
+
+            return weapon.class.includes(
+                classId
+            );
+
+        }
     );
 
 }
 
+/*
+ * Waffenliste neu aufbauen
+ */
+function refreshWeaponList(){
+
+    const classId =
+        document.getElementById(
+            "classSelector"
+        ).value;
+
+    const filteredWeapons =
+        getWeaponsForClass(
+            classId
+        );
+
+    const select =
+        document.getElementById(
+            "weaponSelect"
+        );
+
+    if(!select)
+        return;
+
+    select.innerHTML = "";
+
+    filteredWeapons.forEach(
+        weapon => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                weapon.id;
+
+            option.textContent =
+                weapon.name;
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+/*
+ * Event Handler registrieren
+ */
+function bindEvents(){
+
+    const classSelector =
+        document.getElementById(
+            "classSelector"
+        );
+
+    classSelector.addEventListener(
+        "change",
+        () => {
+
+            refreshWeaponList();
+
+            updateStats();
+
+        }
+    );
+
+    const weaponSelect =
+        document.getElementById(
+            "weaponSelect"
+        );
+
+    if(weaponSelect){
+
+        weaponSelect.addEventListener(
+            "change",
+            updateStats
+        );
+
+    }
+
+}
+
+/*
+ * Aktuelle Ausrüstung sammeln
+ */
+function collectEquipment(){
+
+    const weaponSelect =
+        document.getElementById(
+            "weaponSelect"
+        );
+
+    if(
+        weaponSelect &&
+        weaponSelect.value
+    ){
+
+        const weaponId =
+            parseInt(
+                weaponSelect.value
+            );
+
+        equipment.weapon =
+            weapons.find(
+                w =>
+                    w.id === weaponId
+            );
+
+    }
+    else{
+
+        equipment.weapon =
+            null;
+
+    }
+
+}
+
+/*
+ * Stats neu berechnen
+ */
 function updateStats(){
 
     const classId =
@@ -107,17 +251,13 @@ function updateStats(){
             "classSelector"
         ).value;
 
-    const weaponId =
-        parseInt(
-            document.getElementById(
-                "weaponSelect"
-            ).value
-        );
+    if(
+        !baseStats[classId]
+    ){
+        return;
+    }
 
-    equipment.weapon =
-        weapons.find(
-            w => w.id === weaponId
-        );
+    collectEquipment();
 
     const stats =
         calculateStats(
@@ -128,40 +268,66 @@ function updateStats(){
 
         );
 
-    renderStats(stats);
+    renderStats(
+        stats
+    );
 
 }
 
-init();async function init(){
+/*
+ * Build speichern
+ */
+function saveCurrentBuild(){
 
-    const classes =
-        await loadClasses();
+    localStorage.setItem(
 
-    const selector =
-        document.getElementById(
-            "classSelector"
+        "currentBuild",
+
+        JSON.stringify(
+            equipment
+        )
+
+    );
+
+}
+
+/*
+ * Build laden
+ */
+function loadCurrentBuild(){
+
+    const build =
+        localStorage.getItem(
+            "currentBuild"
         );
 
-    classes.forEach(c => {
+    if(!build)
+        return;
 
-        const option =
-            document.createElement(
-                "option"
+    try{
+
+        const parsed =
+            JSON.parse(
+                build
             );
 
-        option.value = c.id;
-
-        option.textContent =
-            c.name;
-
-        selector.appendChild(
-            option
+        Object.assign(
+            equipment,
+            parsed
         );
 
-    });
+    }
+    catch(error){
 
-    createEquipmentSlots();
+        console.error(
+            error
+        );
+
+    }
 
 }
 
-init();console.log("Aion 4 Builder gestartet");
+/*
+ * Start
+ */
+init();
