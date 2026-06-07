@@ -15,8 +15,6 @@ function onClassChange(){
 
     updateClassPortrait();
 
-    refreshWeaponList();
-
     updateStats();
 
 }
