@@ -1,0 +1,30 @@
+.calculator{
+
+    display:grid;
+
+    grid-template-columns:
+        450px
+        1fr;
+
+    gap:10px;
+
+    padding:10px;
+}
+
+.equipment-panel{
+
+    border:1px solid #444;
+
+    min-height:700px;
+
+    padding:15px;
+}
+
+.stats-panel{
+
+    border:1px solid #444;
+
+    min-height:700px;
+
+    padding:15px;
+}
