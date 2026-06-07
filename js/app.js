@@ -189,6 +189,19 @@ function bindEvents(){
         );
 
     }
+    const searchInput =
+    document.getElementById(
+        "itemSearchInput"
+    );
+
+if(searchInput){
+
+    searchInput.addEventListener(
+        "input",
+        filterModalItems
+    );
+
+}
 
 }
 
