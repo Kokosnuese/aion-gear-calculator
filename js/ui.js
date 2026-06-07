@@ -53,3 +53,59 @@ function createEquipmentSlots(){
     });
 
 }
+function createWeaponSlot(
+    weapons
+){
+
+    const container =
+        document.getElementById(
+            "equipmentSlots"
+        );
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+    div.className =
+        "slot";
+
+    div.innerHTML = `
+
+        <label>Weapon</label>
+
+        <select id="weaponSelect">
+
+        </select>
+
+    `;
+
+    container.appendChild(
+        div
+    );
+
+    const select =
+        document.getElementById(
+            "weaponSelect"
+        );
+
+    weapons.forEach(w => {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            w.id;
+
+        option.textContent =
+            w.name;
+
+        select.appendChild(
+            option
+        );
+
+    });
+
+}
