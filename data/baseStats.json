@@ -1,11 +1,23 @@
 {
   "gladiator": {
-    "hp": 10000,
-    "attack": 100,
-    "crit": 50,
-    "accuracy": 1200
-  },
 
+    "hp":10000,
+
+    "attack":100,
+
+    "crit":50,
+
+    "accuracy":1200,
+
+    "physicalDefence":800,
+
+    "magicalResist":1200,
+
+    "block":0,
+
+    "parry":1500
+
+  },
   "templar": {
     "hp": 11000,
     "attack": 90,
