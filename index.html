@@ -11,67 +11,75 @@
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ═══════════════════════════════════════════════
+     HEADER — nur Logo/Titel, kein Nav-Button
+════════════════════════════════════════════════ -->
 <header id="site-header">
   <div class="header-inner">
     <div class="logo-area">
-      <img src="assets/ui/logo-placeholder.svg" alt="Aion Classic" class="logo-img" onerror="this.style.display='none'">
-      <span class="logo-text">AION <span class="logo-accent">GEAR</span></span>
+      <img src="assets/ui/logo-placeholder.svg" alt="" class="logo-img" onerror="this.style.display='none'">
+      <span class="logo-text">AION <span class="logo-accent">GEAR</span> CALCULATOR</span>
     </div>
-    <nav class="main-nav">
-      <a href="#" class="nav-link active">Gear Calculator</a>
-    </nav>
+    <div class="header-version">Aion 4.x · EU</div>
   </div>
 </header>
 
-<!-- TOOLBAR -->
-<div id="toolbar">
-  <div class="toolbar-inner">
-    <div class="version-badge">Classic 5.0 · NA</div>
-    <div class="class-selector-wrap">
-      <label for="classSelector">Class:</label>
-      <select id="classSelector"></select>
-    </div>
-  </div>
-</div>
-
-<!-- SET BAR -->
-<div id="set-bar">
-  <div id="set-tabs">
-    <!-- dynamically filled -->
-  </div>
-  <button id="addSetBtn" class="btn-add-set">+ Add Set</button>
-  <button id="saveShareBtn" class="btn-share">💾 Save &amp; Share</button>
-</div>
-
-<!-- TAB BAR -->
-<div id="tab-bar">
-  <button class="tab-btn active" data-tab="characteristics">Characteristics</button>
-  <button class="tab-btn" data-tab="amplification">Amplification</button>
-  <button class="tab-btn" data-tab="comparison">Comparison</button>
-</div>
-
-<!-- MAIN CALCULATOR -->
+<!-- ═══════════════════════════════════════════════
+     MAIN CALCULATOR GRID
+     Spalte 1: Equipment + Set-Panel
+     Spalte 2: Stats Panel (mit Tabs oben)
+════════════════════════════════════════════════ -->
 <div id="calculator">
 
-  <!-- LEFT: Equipment Panel -->
-  <div id="equipment-panel" class="panel">
-    <div class="panel-header">
-      <img id="classEmblem" src="" alt="" class="class-emblem">
-      <h2 id="className">Gladiator</h2>
-    </div>
-    <div id="gear-layout">
-      <div id="leftGearColumn"></div>
-      <div id="centerArea">
-        <img src="assets/ui/character.png" id="characterImage" alt="Character">
-        <div id="setBonusArea"></div>
-      </div>
-      <div id="rightGearColumn"></div>
-    </div>
-  </div>
+  <!-- ── LINKE SPALTE ─────────────────────────── -->
+  <div id="left-column">
 
-  <!-- RIGHT: Stats Panel -->
+    <!-- EQUIPMENT PANEL -->
+    <div id="equipment-panel" class="panel">
+
+      <!-- Panel-Header: Emblem + Klassenname (klickbar → Dropdown) -->
+      <div class="panel-header">
+        <img id="classEmblem" src="" alt="" class="class-emblem">
+        <div class="class-selector-inline">
+          <select id="classSelector" title="Select class"></select>
+        </div>
+      </div>
+
+      <!-- Gear-Grid: Links | Charakter | Rechts -->
+      <div id="gear-layout">
+        <div id="leftGearColumn"></div>
+        <div id="centerArea">
+          <img src="assets/ui/character.png" id="characterImage" alt="Character">
+          <div id="setBonusArea"></div>
+        </div>
+        <div id="rightGearColumn"></div>
+      </div>
+
+    </div><!-- /equipment-panel -->
+
+    <!-- SET PANEL — gleiche Breite wie Equipment-Panel -->
+    <div id="set-panel" class="panel">
+      <div class="set-panel-inner">
+        <div id="set-tabs"><!-- dynamisch befüllt --></div>
+        <div class="set-panel-actions">
+          <button id="addSetBtn"   class="btn-add-set">+ New Set</button>
+          <button id="saveShareBtn" class="btn-share">💾 Save &amp; Share</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left-column -->
+
+  <!-- ── RECHTE SPALTE: Stats Panel ──────────── -->
   <div id="stats-panel" class="panel">
+
+    <!-- Tab-Leiste oben im Panel -->
+    <div id="stats-tab-bar">
+      <button class="tab-btn active" data-tab="characteristics">Characteristics</button>
+      <button class="tab-btn"        data-tab="amplification">Amplification</button>
+      <button class="tab-btn"        data-tab="comparison">Comparison</button>
+    </div>
+
     <!-- Tab: Characteristics -->
     <div id="tab-characteristics" class="tab-content active">
       <div class="stats-section" id="statsGeneral"></div>
@@ -79,23 +87,28 @@
       <div class="stats-section" id="statsOffense"></div>
       <div class="stats-section" id="statsDefense"></div>
     </div>
+
     <!-- Tab: Amplification -->
     <div id="tab-amplification" class="tab-content">
-      <div class="amp-placeholder">
+      <div class="placeholder-msg">
+        <div class="placeholder-icon">⚒</div>
         <p>Amplification planner coming soon.</p>
       </div>
     </div>
+
     <!-- Tab: Comparison -->
     <div id="tab-comparison" class="tab-content">
-      <div class="comp-placeholder">
+      <div class="placeholder-msg">
+        <div class="placeholder-icon">⚖</div>
         <p>Select two sets to compare stats.</p>
       </div>
     </div>
-  </div>
 
-</div>
+  </div><!-- /stats-panel -->
 
-<!-- ITEM MODAL -->
+</div><!-- /calculator -->
+
+<!-- ═══════════════════════════════════════════════ ITEM MODAL -->
 <div id="itemModal">
   <div id="itemModalContent">
     <div class="modal-header">
@@ -107,17 +120,17 @@
   </div>
 </div>
 
-<!-- TOOLTIP -->
+<!-- ═══════════════════════════════════════════════ TOOLTIP -->
 <div id="tooltip"></div>
 
-<!-- SHARE MODAL -->
+<!-- ═══════════════════════════════════════════════ SHARE MODAL -->
 <div id="shareModal">
   <div id="shareModalContent">
     <div class="modal-header">
       <h3>Share Build</h3>
       <button id="closeShareModal" class="btn-close">✕</button>
     </div>
-    <div class="modal-body" style="padding:16px;">
+    <div class="modal-body">
       <p>Copy this URL to share your build:</p>
       <div class="share-url-row">
         <input id="shareUrlInput" type="text" readonly>
@@ -127,7 +140,6 @@
   </div>
 </div>
 
-<!-- SCRIPTS -->
 <script src="js/data.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/ui.js"></script>

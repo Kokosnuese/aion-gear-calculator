@@ -1,5 +1,5 @@
 /* ============================================================
-   app.js — Main application controller
+   app.js — Main application controller  v3
    ============================================================ */
 
 const EMPTY_EQUIPMENT = () => ({
@@ -19,7 +19,7 @@ const App = (() => {
     { name: 'Set 1', equipment: EMPTY_EQUIPMENT() }
   ];
 
-  // ----- INIT ------------------------------------------------
+  // ── INIT ────────────────────────────────────────────────────
 
   function init() {
     populateClassSelector();
@@ -34,8 +34,8 @@ const App = (() => {
     if (!hash) return;
     const build = deserializeBuild(hash);
     if (!build) return;
-    classId = build.classId;
-    sets    = build.sets;
+    classId   = build.classId;
+    sets      = build.sets;
     activeSet = 0;
   }
 
@@ -46,7 +46,6 @@ const App = (() => {
       const data = JSON.parse(saved);
       if (data.classId) classId = data.classId;
       if (data.sets && data.sets.length) {
-        // Re-hydrate items from IDs
         const allItems = [...ITEMS.weapons, ...ITEMS.armor, ...ITEMS.accessories];
         sets = data.sets.map(s => {
           const eq = {};
@@ -74,34 +73,29 @@ const App = (() => {
     } catch {}
   }
 
-  // ----- RENDER ----------------------------------------------
+  // ── RENDER ──────────────────────────────────────────────────
 
   function renderAll() {
-    // Class selector
+    // Klassen-Selector im Equipment-Panel Header
     const sel = document.getElementById('classSelector');
     if (sel) sel.value = classId;
 
-    // Class name + emblem
-    const nameEl   = document.getElementById('className');
+    // Klassen-Emblem aktualisieren
     const emblemEl = document.getElementById('classEmblem');
-    const clsObj   = CLASSES.find(c => c.id === classId);
-    if (nameEl)   nameEl.textContent = clsObj ? clsObj.name : classId;
-    if (emblemEl) { emblemEl.src = CLASS_EMBLEMS[classId] || ''; emblemEl.alt = classId; }
+    if (emblemEl) {
+      emblemEl.src = CLASS_EMBLEMS[classId] || '';
+      emblemEl.alt = classId;
+    }
 
     const eq = currentEquipment();
 
-    // Slots
     buildEquipmentSlots(eq);
 
-    // Stats
-    const stats    = calculateStats(classId, eq);
-    const base     = BASE_STATS[classId] || BASE_STATS.gladiator;
+    const stats = calculateStats(classId, eq);
+    const base  = BASE_STATS[classId] || BASE_STATS.gladiator;
     renderStats(stats, base);
 
-    // Set bonuses
     renderSetBonuses(eq);
-
-    // Set tabs
     renderSetTabs(sets, activeSet);
   }
 
@@ -109,7 +103,7 @@ const App = (() => {
     return sets[activeSet] ? sets[activeSet].equipment : EMPTY_EQUIPMENT();
   }
 
-  // ----- CLASS -----------------------------------------------
+  // ── CLASS ───────────────────────────────────────────────────
 
   function onClassChange() {
     classId = document.getElementById('classSelector').value;
@@ -119,6 +113,7 @@ const App = (() => {
 
   function populateClassSelector() {
     const sel = document.getElementById('classSelector');
+    if (!sel) return;
     sel.innerHTML = '';
     CLASSES.forEach(c => {
       const opt = document.createElement('option');
@@ -129,7 +124,7 @@ const App = (() => {
     sel.value = classId;
   }
 
-  // ----- SETS ------------------------------------------------
+  // ── SETS ────────────────────────────────────────────────────
 
   function switchSet(index) {
     activeSet = index;
@@ -144,21 +139,19 @@ const App = (() => {
     renderAll();
   }
 
-  // ----- ITEMS -----------------------------------------------
+  // ── ITEMS ───────────────────────────────────────────────────
 
   function openModal(slot) {
     currentSlot  = slot;
     currentItems = getItemsForSlot(slot, classId);
 
-    const modal     = document.getElementById('itemModal');
-    const titleEl   = document.getElementById('modalSlotTitle');
-    const searchEl  = document.getElementById('itemSearchInput');
-
-    if (titleEl) titleEl.textContent = SLOT_LABELS[slot] || slot;
+    const titleEl  = document.getElementById('modalSlotTitle');
+    const searchEl = document.getElementById('itemSearchInput');
+    if (titleEl)  titleEl.textContent = SLOT_LABELS[slot] || slot;
     if (searchEl) { searchEl.value = ''; searchEl.focus(); }
 
     renderItemList(currentItems, slot);
-    modal.classList.add('open');
+    document.getElementById('itemModal').classList.add('open');
   }
 
   function closeModal() {
@@ -181,67 +174,77 @@ const App = (() => {
   }
 
   function filterItems() {
-    const term = document.getElementById('itemSearchInput').value.toLowerCase();
+    const term     = document.getElementById('itemSearchInput').value.toLowerCase();
     const filtered = currentItems.filter(i => i.name.toLowerCase().includes(term));
     renderItemList(filtered, currentSlot);
   }
 
-  // ----- SHARE -----------------------------------------------
+  // ── SHARE ───────────────────────────────────────────────────
 
-  function shareModal() {
+  function doShare() {
     const hash = serializeBuild(classId, sets);
     const url  = window.location.origin + window.location.pathname + '#' + hash;
     openShareModal(url);
   }
 
-  // ----- EVENTS ----------------------------------------------
+  // ── EVENTS ──────────────────────────────────────────────────
 
   function bindGlobalEvents() {
-    // Class change
+    // Klassen-Dropdown im Panel-Header
     document.getElementById('classSelector')
       .addEventListener('change', onClassChange);
 
-    // Tab buttons
-    document.querySelectorAll('.tab-btn').forEach(btn => {
+    // Stats-Tab-Buttons (jetzt innerhalb #stats-panel)
+    document.querySelectorAll('#stats-tab-bar .tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#stats-tab-bar .tab-btn')
+          .forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content')
+          .forEach(t => t.classList.remove('active'));
         const target = document.getElementById('tab-' + btn.dataset.tab);
         if (target) target.classList.add('active');
       });
     });
 
-    // Set bar
-    document.getElementById('addSetBtn').addEventListener('click', addSet);
-    document.getElementById('saveShareBtn').addEventListener('click', shareModal);
+    // Set-Panel Buttons
+    document.getElementById('addSetBtn')
+      .addEventListener('click', addSet);
+    document.getElementById('saveShareBtn')
+      .addEventListener('click', doShare);
 
-    // Item modal
-    document.getElementById('closeModal').addEventListener('click', closeModal);
-    document.getElementById('itemModal').addEventListener('click', e => {
-      if (e.target === document.getElementById('itemModal')) closeModal();
-    });
-    document.getElementById('itemSearchInput').addEventListener('input', filterItems);
+    // Item Modal
+    document.getElementById('closeModal')
+      .addEventListener('click', closeModal);
+    document.getElementById('itemModal')
+      .addEventListener('click', e => {
+        if (e.target === document.getElementById('itemModal')) closeModal();
+      });
+    document.getElementById('itemSearchInput')
+      .addEventListener('input', filterItems);
 
-    // Share modal
-    document.getElementById('closeShareModal').addEventListener('click', () => {
-      document.getElementById('shareModal').classList.remove('open');
-    });
-    document.getElementById('shareModal').addEventListener('click', e => {
-      if (e.target === document.getElementById('shareModal'))
+    // Share Modal
+    document.getElementById('closeShareModal')
+      .addEventListener('click', () => {
         document.getElementById('shareModal').classList.remove('open');
-    });
-    document.getElementById('copyUrlBtn').addEventListener('click', () => {
-      const input = document.getElementById('shareUrlInput');
-      input.select();
-      navigator.clipboard.writeText(input.value).catch(() => {});
-      const btn = document.getElementById('copyUrlBtn');
-      btn.textContent = '✓ Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
-    });
+      });
+    document.getElementById('shareModal')
+      .addEventListener('click', e => {
+        if (e.target === document.getElementById('shareModal'))
+          document.getElementById('shareModal').classList.remove('open');
+      });
+    document.getElementById('copyUrlBtn')
+      .addEventListener('click', () => {
+        const input = document.getElementById('shareUrlInput');
+        input.select();
+        navigator.clipboard.writeText(input.value).catch(() => {});
+        const btn = document.getElementById('copyUrlBtn');
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
 
-    // Keyboard: Escape closes modals
+    // Escape schließt Modals
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         closeModal();
