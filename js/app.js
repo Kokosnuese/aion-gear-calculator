@@ -208,6 +208,19 @@ if(searchInput){
     );
 
 }
+    const closeButton =
+    document.getElementById(
+        "closeModal"
+    );
+
+if(closeButton){
+
+    closeButton.addEventListener(
+        "click",
+        closeItemModal
+    );
+
+}
 
 }
 
