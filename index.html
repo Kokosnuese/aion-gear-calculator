@@ -2,66 +2,87 @@
 <html lang="de">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Aion 4 Builder</title>
 
-    <link rel="stylesheet" href="css/main.css">
+<meta charset="UTF-8">
+
+<title>Aion 4 Builder</title>
+
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/calculator.css">
+
 </head>
 
 <body>
 
 <header>
 
-<nav>
+<div class="logo">
 
-<a href="index.html">Home</a>
-
-<a href="classes/gladiator.html">Gladiator</a>
-
-<a href="classes/templar.html">Templar</a>
-
-<a href="classes/assassin.html">Assassin</a>
-
-<a href="classes/ranger.html">Ranger</a>
-
-<a href="classes/sorcerer.html">Sorcerer</a>
-
-<a href="classes/spiritmaster.html">Spiritmaster</a>
-
-<a href="classes/cleric.html">Cleric</a>
-
-<a href="classes/chanter.html">Chanter</a>
-
-<a href="classes/gunslinger.html">Gunslinger</a>
-
-<a href="classes/songweaver.html">Songweaver</a>
-
-<a href="classes/aethertech.html">Aethertech</a>
-
-<a href="tools/amplification.html">Amplification</a>
-
-<a href="tools/comparison.html">Comparison</a>
-
-</nav>
-
-</header>
-
-<main>
-
-<h1 class="page-title">
-
-Aion 4 Builder
-
-</h1>
-
-<div class="card">
-
-Willkommen zum Aion 4.x Gear Calculator.
+AION 4 BUILDER
 
 </div>
 
-</main>
+</header>
 
+<div class="toolbar">
+
+<select id="classSelector">
+
+</select>
+
+</div>
+
+<div class="build-bar">
+
+<button>Set 1</button>
+
+<button>+ New Set</button>
+
+</div>
+
+<div class="tab-bar">
+
+<button class="active">
+Characteristics
+</button>
+
+<button>
+Amplification
+</button>
+
+<button>
+Comparison
+</button>
+
+</div>
+
+<div class="calculator">
+
+<div class="equipment-panel">
+
+<h2>Equipment</h2>
+
+<div id="equipmentSlots">
+
+</div>
+
+</div>
+
+<div class="stats-panel">
+
+<h2>Character Stats</h2>
+
+<div id="statsList">
+
+</div>
+
+</div>
+
+</div>
+
+<script src="js/classManager.js"></script>
+<script src="js/ui.js"></script>
 <script src="js/app.js"></script>
 
 </body>
