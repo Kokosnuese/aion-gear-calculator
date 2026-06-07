@@ -32,7 +32,7 @@ async function init(){
 
         populateClasses();
 
-        createWeaponSlot([]);
+        createEquipmentSlots();
 
         refreshWeaponList();
 
