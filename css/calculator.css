@@ -28,3 +28,29 @@
 
     padding:15px;
 }
+.slot{
+
+    border:1px solid #555;
+
+    margin-bottom:6px;
+
+    padding:8px;
+}
+
+.slot select{
+
+    width:100%;
+}
+
+.stat-row{
+
+    display:flex;
+
+    justify-content:
+        space-between;
+
+    padding:5px;
+
+    border-bottom:
+        1px solid #333;
+}
