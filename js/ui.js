@@ -2,29 +2,29 @@ function createEquipmentSlots(){
 
     const slots = [
 
-        "Weapon",
-        "Sub Weapon",
+        "weapon",
 
-        "Helmet",
-        "Shoulders",
-        "Chest",
-        "Gloves",
-        "Pants",
-        "Boots",
+        "helmet",
 
-        "Necklace",
+        "chest",
 
-        "Earring 1",
-        "Earring 2",
+        "gloves",
 
-        "Ring 1",
-        "Ring 2",
+        "pants",
 
-        "Belt",
+        "boots",
 
-        "Title",
-        "Food",
-        "Scroll"
+        "necklace",
+
+        "earring1",
+
+        "earring2",
+
+        "ring1",
+
+        "ring2",
+
+        "belt"
 
     ];
 
@@ -33,91 +33,14 @@ function createEquipmentSlots(){
             "equipmentSlots"
         );
 
+    container.innerHTML = "";
+
     slots.forEach(slot => {
 
-        const div =
-            document.createElement(
-                "div"
-            );
-
-        div.className =
-            "slot";
-
-       div.innerHTML = `
-
-<div class="slot-name">
-
-${slot}
-
-</div>
-
-<button
-onclick="openItemModal('${slot}')">
-
-Select
-
-</button>
-
-`;
-
         container.appendChild(
-            div
-        );
 
-    });
+            createSlot(slot)
 
-}
-function createWeaponSlot(
-    weapons
-){
-
-    const container =
-        document.getElementById(
-            "equipmentSlots"
-        );
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-    div.className =
-        "slot";
-
-    div.innerHTML = `
-
-        <label>Weapon</label>
-
-        <select id="weaponSelect">
-
-        </select>
-
-    `;
-
-    container.appendChild(
-        div
-    );
-
-    const select =
-        document.getElementById(
-            "weaponSelect"
-        );
-
-    weapons.forEach(w => {
-
-        const option =
-            document.createElement(
-                "option"
-            );
-
-        option.value =
-            w.id;
-
-        option.textContent =
-            w.name;
-
-        select.appendChild(
-            option
         );
 
     });
