@@ -9,27 +9,30 @@ function showTooltip(
             "tooltip"
         );
 
-    tooltip.innerHTML = `
+tooltip.innerHTML = `
 
-        <strong>
+    <div class="tooltip-name">
 
         ${item.name}
 
-        </strong>
+    </div>
 
-        <br>
+    <hr>
 
-        Attack:
+    Attack:
+    ${item.stats.attack || 0}
 
-        ${item.stats.attack || 0}
+    <br>
 
-        <br>
+    Crit:
+    ${item.stats.crit || 0}
 
-        Crit:
+    <br>
 
-        ${item.stats.crit || 0}
+    Accuracy:
+    ${item.stats.accuracy || 0}
 
-    `;
+`;
 
     tooltip.style.left =
         x + "px";
