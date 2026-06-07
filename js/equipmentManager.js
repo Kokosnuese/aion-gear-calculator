@@ -29,3 +29,21 @@ const equipment = {
     belt:null
 
 };
+
+function equipItem(
+    slot,
+    item
+){
+
+    equipment[slot] = item;
+
+    updateSlotUI(
+        slot,
+        item
+    );
+
+    updateStats();
+
+    saveCurrentBuild();
+
+}
