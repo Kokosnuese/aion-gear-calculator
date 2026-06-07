@@ -1,0 +1,49 @@
+[
+  {
+    "id":5001,
+    "name":"Tahabata Necklace",
+    "icon":"5001.png",
+    "slot":"necklace",
+
+    "stats":{
+      "attack":10,
+      "crit":15
+    }
+  },
+
+  {
+    "id":5002,
+    "name":"Tahabata Ring",
+    "icon":"5002.png",
+    "slot":"ring",
+
+    "stats":{
+      "attack":5,
+      "crit":17
+    }
+  },
+
+  {
+    "id":5003,
+    "name":"Tahabata Earring",
+    "icon":"5003.png",
+    "slot":"earring",
+
+    "stats":{
+      "hp":100,
+      "crit":12
+    }
+  },
+
+  {
+    "id":5004,
+    "name":"Tahabata Belt",
+    "icon":"5004.png",
+    "slot":"belt",
+
+    "stats":{
+      "hp":120,
+      "physicalDefence":40
+    }
+  }
+]
