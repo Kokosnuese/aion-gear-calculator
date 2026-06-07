@@ -1,0 +1,29 @@
+[
+  {
+    "id":"tahabata",
+
+    "name":"Tahabata Set",
+
+    "items":[
+      2001,
+      2002
+    ],
+
+    "bonuses":[
+
+      {
+        "pieces":2,
+
+        "stats":{
+
+          "attack":15,
+
+          "crit":20
+
+        }
+
+      }
+
+    ]
+  }
+]
