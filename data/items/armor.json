@@ -4,6 +4,21 @@
 
     "name":"Tahabata Helmet",
 
+    "icon":"2001.png",
+
+    "slot":"helmet",
+
+    "stats":{
+      "hp":150,
+      "crit":20
+    }
+  }
+][
+  {
+    "id":2001,
+
+    "name":"Tahabata Helmet",
+
     "slot":"helmet",
 
     "hp":150,
