@@ -314,14 +314,7 @@ function loadCurrentBuild(){
 
 }
 
-document
-.getElementById(
-    "itemSearchInput"
-)
-.addEventListener(
-    "input",
-    filterModalItems
-);
+
 /*
  * Start
  */
