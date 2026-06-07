@@ -1,10 +1,10 @@
 function createEquipmentSlots(){
 
-    const slots = [
-
-        "weapon",
+    const leftSlots = [
 
         "helmet",
+
+        "weapon",
 
         "chest",
 
@@ -12,7 +12,11 @@ function createEquipmentSlots(){
 
         "pants",
 
-        "boots",
+        "boots"
+
+    ];
+
+    const rightSlots = [
 
         "necklace",
 
@@ -28,19 +32,31 @@ function createEquipmentSlots(){
 
     ];
 
-    const container =
+    const left =
         document.getElementById(
-            "equipmentSlots"
+            "leftGearColumn"
         );
 
-    container.innerHTML = "";
+    const right =
+        document.getElementById(
+            "rightGearColumn"
+        );
 
-    slots.forEach(slot => {
+    left.innerHTML = "";
+    right.innerHTML = "";
 
-        container.appendChild(
+    leftSlots.forEach(slot => {
 
+        left.appendChild(
             createSlot(slot)
+        );
 
+    });
+
+    rightSlots.forEach(slot => {
+
+        right.appendChild(
+            createSlot(slot)
         );
 
     });
