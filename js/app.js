@@ -10,6 +10,8 @@ let weapons = [];
 
 let armor = [];
 
+let accessories = [];
+
 let weaponTypes = {};
 
 let armorTypes = {};
@@ -61,6 +63,11 @@ async function init(){
         console.log(
             "Loading weapon types..."
         );
+
+        accessories =
+    await loadJSON(
+        "data/items/accessories.json"
+    );
 
         weaponTypes =
             await loadJSON(
