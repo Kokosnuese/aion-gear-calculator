@@ -1,0 +1,50 @@
+{
+  "gladiator":[
+    "greatsword",
+    "polearm"
+  ],
+
+  "templar":[
+    "greatsword",
+    "sword"
+  ],
+
+  "assassin":[
+    "dagger",
+    "sword"
+  ],
+
+  "ranger":[
+    "bow"
+  ],
+
+  "sorcerer":[
+    "orb",
+    "spellbook"
+  ],
+
+  "spiritmaster":[
+    "orb",
+    "spellbook"
+  ],
+
+  "cleric":[
+    "mace"
+  ],
+
+  "chanter":[
+    "staff"
+  ],
+
+  "gunslinger":[
+    "pistol"
+  ],
+
+  "songweaver":[
+    "harp"
+  ],
+
+  "aethertech":[
+    "cannon"
+  ]
+}
