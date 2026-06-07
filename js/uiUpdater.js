@@ -3,21 +3,30 @@ function updateSlotUI(
     item
 ){
 
-    const slotElement =
+    const element =
         document.querySelector(
 
             `[data-slot="${slot}"]`
 
         );
 
-    if(!slotElement)
+    if(!element)
         return;
 
-    slotElement
+    element
         .querySelector(
             ".slot-item"
         )
         .textContent =
         item.name;
+
+    const icon =
+        element.querySelector(
+            "img"
+        );
+
+    icon.src =
+        "assets/icons/" +
+        item.icon;
 
 }
