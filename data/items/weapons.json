@@ -1,0 +1,29 @@
+[
+  {
+    "id":1001,
+
+    "name":"Tahabata Greatsword",
+
+    "type":"greatsword",
+
+    "attack":245,
+
+    "crit":50,
+
+    "accuracy":0
+  },
+
+  {
+    "id":1002,
+
+    "name":"Arena Greatsword",
+
+    "type":"greatsword",
+
+    "attack":265,
+
+    "crit":20,
+
+    "accuracy":0
+  }
+]
