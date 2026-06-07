@@ -4,6 +4,27 @@
 
     "name":"Tahabata Greatsword",
 
+    "icon":"1001.png",
+
+    "class":[
+      "gladiator",
+      "templar"
+    ],
+
+    "slot":"weapon",
+
+    "stats":{
+      "attack":245,
+      "crit":50,
+      "accuracy":0
+    }
+  }
+][
+  {
+    "id":1001,
+
+    "name":"Tahabata Greatsword",
+
     "type":"greatsword",
 
     "attack":245,
