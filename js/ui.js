@@ -4,6 +4,8 @@ function createEquipmentSlots(){
 
         "helmet",
 
+        "shoulders",
+
         "weapon",
 
         "chest",
