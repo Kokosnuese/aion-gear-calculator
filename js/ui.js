@@ -43,8 +43,22 @@ function createEquipmentSlots(){
         div.className =
             "slot";
 
-        div.textContent =
-            slot;
+       div.innerHTML = `
+
+<div class="slot-name">
+
+${slot}
+
+</div>
+
+<button
+onclick="openItemModal('${slot}')">
+
+Select
+
+</button>
+
+`;
 
         container.appendChild(
             div
