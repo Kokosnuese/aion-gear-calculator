@@ -7,3 +7,28 @@ async function loadClasses(){
 
     return await response.json();
 }
+
+function updateClassPortrait(){
+
+    const classId =
+        document
+        .getElementById(
+            "classSelector"
+        )
+        .value;
+
+    const img =
+        document.getElementById(
+            "characterImage"
+        );
+
+    if(
+        classPortraits[classId]
+    ){
+
+        img.src =
+            classPortraits[classId];
+
+    }
+
+}
