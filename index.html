@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aion Gear Calculator</title>
+  <title>Aion Gear Calculator — 4.x EU</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
@@ -11,9 +11,7 @@
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
-     HEADER — nur Logo/Titel, kein Nav-Button
-════════════════════════════════════════════════ -->
+<!-- HEADER -->
 <header id="site-header">
   <div class="header-inner">
     <div class="logo-area">
@@ -24,28 +22,20 @@
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════════
-     MAIN CALCULATOR GRID
-     Spalte 1: Equipment + Set-Panel
-     Spalte 2: Stats Panel (mit Tabs oben)
-════════════════════════════════════════════════ -->
+<!-- MAIN GRID -->
 <div id="calculator">
 
-  <!-- ── LINKE SPALTE ─────────────────────────── -->
+  <!-- LEFT COLUMN: Equipment + Set Panel -->
   <div id="left-column">
 
     <!-- EQUIPMENT PANEL -->
     <div id="equipment-panel" class="panel">
-
-      <!-- Panel-Header: Emblem + Klassenname (klickbar → Dropdown) -->
       <div class="panel-header">
         <img id="classEmblem" src="" alt="" class="class-emblem">
         <div class="class-selector-inline">
           <select id="classSelector" title="Select class"></select>
         </div>
       </div>
-
-      <!-- Gear-Grid: Links | Charakter | Rechts -->
       <div id="gear-layout">
         <div id="leftGearColumn"></div>
         <div id="centerArea">
@@ -54,26 +44,24 @@
         </div>
         <div id="rightGearColumn"></div>
       </div>
+    </div>
 
-    </div><!-- /equipment-panel -->
-
-    <!-- SET PANEL — gleiche Breite wie Equipment-Panel -->
+    <!-- SET PANEL -->
     <div id="set-panel" class="panel">
       <div class="set-panel-inner">
-        <div id="set-tabs"><!-- dynamisch befüllt --></div>
+        <div id="set-tabs"></div>
         <div class="set-panel-actions">
-          <button id="addSetBtn"   class="btn-add-set">+ New Set</button>
+          <button id="addSetBtn"    class="btn-add-set">+ New Set</button>
           <button id="saveShareBtn" class="btn-share">💾 Save &amp; Share</button>
         </div>
       </div>
     </div>
 
-  </div><!-- /left-column -->
+  </div>
 
-  <!-- ── RECHTE SPALTE: Stats Panel ──────────── -->
+  <!-- RIGHT: Stats Panel -->
   <div id="stats-panel" class="panel">
 
-    <!-- Tab-Leiste oben im Panel -->
     <div id="stats-tab-bar">
       <button class="tab-btn active" data-tab="characteristics">Characteristics</button>
       <button class="tab-btn"        data-tab="amplification">Amplification</button>
@@ -83,16 +71,18 @@
     <!-- Tab: Characteristics -->
     <div id="tab-characteristics" class="tab-content active">
       <div class="stats-section" id="statsGeneral"></div>
-      <div class="stats-section" id="statsPvP"></div>
+      <div class="stats-section" id="statsPvp"></div><!-- FIX: was statsPvP -->
       <div class="stats-section" id="statsOffense"></div>
       <div class="stats-section" id="statsDefense"></div>
     </div>
 
     <!-- Tab: Amplification -->
     <div id="tab-amplification" class="tab-content">
-      <div class="placeholder-msg">
-        <div class="placeholder-icon">⚒</div>
-        <p>Amplification planner coming soon.</p>
+      <div id="amp-panel">
+        <div class="amp-intro">
+          <p>Select passive skills to include in stat calculations.</p>
+        </div>
+        <div id="amp-skills"></div>
       </div>
     </div>
 
@@ -104,11 +94,11 @@
       </div>
     </div>
 
-  </div><!-- /stats-panel -->
+  </div>
 
-</div><!-- /calculator -->
+</div>
 
-<!-- ═══════════════════════════════════════════════ ITEM MODAL -->
+<!-- ITEM MODAL -->
 <div id="itemModal">
   <div id="itemModalContent">
     <div class="modal-header">
@@ -120,10 +110,9 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ TOOLTIP -->
 <div id="tooltip"></div>
 
-<!-- ═══════════════════════════════════════════════ SHARE MODAL -->
+<!-- SHARE MODAL -->
 <div id="shareModal">
   <div id="shareModalContent">
     <div class="modal-header">
