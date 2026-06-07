@@ -1,10 +1,13 @@
 function getCurrentClass(){
 
-    return document
-        .getElementById(
+    const selector =
+        document.getElementById(
             "classSelector"
-        )
-        .value;
+        );
+
+    return selector
+        ? selector.value
+        : "gladiator";
 
 }
 
