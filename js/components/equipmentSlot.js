@@ -59,8 +59,7 @@ function createSlot(slotName){
 
         <div class="slot-icon">
 
-            <img
-            src="assets/icons/empty.png">
+           <img src="${slotIcons[slotName]}">
 
         </div>
 
