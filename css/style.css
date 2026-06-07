@@ -5,31 +5,36 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg-panel:       rgba(8, 14, 26, 0.82);
-  --bg-panel2:      rgba(4, 10, 20, 0.90);
-  --bg-slot:        rgba(5, 12, 24, 0.72);
-  --bg-hover:       rgba(18, 40, 75, 0.68);
-  --border:         rgba(70, 130, 210, 0.20);
-  --border-light:   rgba(100, 165, 255, 0.32);
-  --gold:           #7ecfff;
-  --gold-dim:       #4fa8e0;
-  --gold-glow:      rgba(126, 207, 255, 0.12);
-  --text:           #cde4f7;
-  --text-dim:       #6a99c0;
-  --text-bright:    #e8f4ff;
-  --grade-common:   #d0dde8;
-  --grade-rare:     #7ecfff;
-  --grade-heroic:   #63e87a;
-  --grade-legend:   #e8d44d;
-  --grade-unique:   #ff9c30;
-  --grade-epic:     #d060ff;
-  --red:            #ff5e5e;
-  --green:          #60e87a;
+  /* Panels deutlich heller + transparenter damit das BG-Bild durchscheint */
+  --bg-panel:       rgba(12, 28, 55, 0.62);
+  --bg-panel2:      rgba(8, 20, 44, 0.72);
+  --bg-slot:        rgba(10, 24, 50, 0.55);
+  --bg-hover:       rgba(30, 65, 130, 0.55);
+  /* Borders kräftiger damit Panels klar abgegrenzt sind */
+  --border:         rgba(90, 160, 255, 0.30);
+  --border-light:   rgba(130, 195, 255, 0.55);
+  /* Cyan-Akzent lebendiger */
+  --gold:           #90d8ff;
+  --gold-dim:       #60b8f0;
+  --gold-glow:      rgba(144, 216, 255, 0.18);
+  /* Text deutlich heller */
+  --text:           #dff0ff;
+  --text-dim:       #90badc;
+  --text-bright:    #ffffff;
+  /* Grade-Farben volle Sättigung */
+  --grade-common:   #e0ecf8;
+  --grade-rare:     #60d8ff;
+  --grade-heroic:   #50f078;
+  --grade-legend:   #ffe840;
+  --grade-unique:   #ffaa30;
+  --grade-epic:     #e060ff;
+  --red:            #ff6060;
+  --green:          #50f078;
   --font-title:     'Cinzel', Georgia, serif;
   --font-body:      'Rajdhani', 'Segoe UI', sans-serif;
   --radius:         5px;
   --transition:     0.14s ease;
-  --blur:           14px;
+  --blur:           12px;
 }
 
 html { font-size: 14px; }
@@ -46,11 +51,12 @@ body {
 body::before {
   content: '';
   position: fixed; inset: 0;
+  /* Overlay deutlich reduziert — BG-Bild ist jetzt viel sichtbarer */
   background: linear-gradient(180deg,
-    rgba(2,8,20,.58) 0%,
-    rgba(4,12,28,.42) 35%,
-    rgba(4,12,28,.42) 65%,
-    rgba(2,8,20,.68) 100%);
+    rgba(2,8,20,.28) 0%,
+    rgba(4,12,28,.18) 35%,
+    rgba(4,12,28,.18) 65%,
+    rgba(2,8,20,.32) 100%);
   pointer-events: none;
   z-index: 0;
 }
@@ -64,8 +70,8 @@ body > * { position: relative; z-index: 1; }
   border: 1px solid var(--border-light);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,.50),
-              inset 0 0 0 1px rgba(126,207,255,.05);
+  box-shadow: 0 8px 32px rgba(0,0,0,.35),
+              inset 0 0 0 1px rgba(144,216,255,.10);
 }
 
 a { color: var(--gold); text-decoration: none; }
@@ -85,7 +91,7 @@ button {
    HEADER
 ═══════════════════════════════════════════════════════════ */
 #site-header {
-  background: rgba(2,6,16,.80);
+  background: rgba(4, 12, 30, 0.70);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border-light);
@@ -93,8 +99,8 @@ button {
   display: flex;
   align-items: center;
   padding: 0 24px;
-  box-shadow: 0 2px 20px rgba(0,0,0,.55),
-              0 1px 0 rgba(126,207,255,.10);
+  box-shadow: 0 2px 20px rgba(0,0,0,.35),
+              0 1px 0 rgba(144,216,255,.18);
 }
 .header-inner {
   display: flex;
@@ -179,7 +185,8 @@ button {
 #equipment-panel::before {
   content: '';
   position: absolute; inset: 0;
-  background: rgba(3,7,18,.50);
+  /* Leichteres Overlay — Sternenhimmel ist deutlicher sichtbar */
+  background: rgba(3,7,18,.30);
   pointer-events: none;
   z-index: 0;
   border-radius: 8px;
@@ -188,7 +195,7 @@ button {
 
 /* ── Panel-Header: Klassen-Emblem + Inline-Select ─────────── */
 .panel-header {
-  background: rgba(3,8,20,.88);
+  background: rgba(6, 16, 38, 0.80);
   border-bottom: 1px solid var(--border-light);
   padding: 10px 14px;
   display: flex;
@@ -272,8 +279,8 @@ button {
   gap: 6px;
   padding: 4px 6px;
   margin-bottom: 3px;
-  background: rgba(4,10,24,.65);
-  border: 1px solid rgba(70,130,210,.28);
+  background: rgba(8, 22, 50, 0.55);
+  border: 1px solid rgba(100, 160, 255, 0.38);
   border-radius: var(--radius);
   cursor: pointer;
   transition: var(--transition);
@@ -284,28 +291,29 @@ button {
 }
 .equipment-slot:hover {
   border-color: var(--gold-dim);
-  background: rgba(18,46,100,.65);
-  box-shadow: 0 0 10px rgba(126,207,255,.14);
+  background: rgba(25, 60, 120, 0.60);
+  box-shadow: 0 0 12px rgba(144,216,255,.18);
 }
 .equipment-slot.has-item {
-  border-color: rgba(90,155,240,.42);
-  background: rgba(6,16,38,.72);
+  border-color: rgba(120, 185, 255, 0.55);
+  background: rgba(12, 30, 65, 0.62);
 }
 .equipment-slot.has-item:hover {
   border-color: var(--gold);
-  box-shadow: 0 0 12px rgba(126,207,255,.20);
+  box-shadow: 0 0 14px rgba(144,216,255,.25);
 }
 .slot-icon { width: 34px; height: 34px; flex-shrink: 0; }
 .slot-icon img {
   width: 34px; height: 34px;
   object-fit: contain;
   image-rendering: pixelated;
-  filter: brightness(.55) sepia(.2) hue-rotate(180deg);
+  /* Heller: war .55, jetzt .80 */
+  filter: brightness(.80) sepia(.15) hue-rotate(180deg);
   transition: var(--transition);
 }
 .equipment-slot:hover .slot-icon img,
 .equipment-slot.has-item .slot-icon img {
-  filter: brightness(1) sepia(0) drop-shadow(0 0 3px rgba(126,207,255,.3));
+  filter: brightness(1.1) sepia(0) drop-shadow(0 0 4px rgba(144,216,255,.35));
 }
 .slot-content { flex: 1; min-width: 0; }
 .slot-label {
@@ -314,7 +322,7 @@ button {
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .slot-item {
-  font-size: 11px; color: rgba(150,195,240,.58);
+  font-size: 11px; color: rgba(180, 220, 255, 0.72);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   line-height: 1.4; margin-top: 1px;
 }
@@ -359,8 +367,7 @@ button {
    SET PANEL — unter dem Equipment Panel, gleiche Breite
 ═══════════════════════════════════════════════════════════ */
 #set-panel {
-  /* Kein Equipment-BG, aber gleicher Glas-Stil */
-  background: rgba(5,11,24,.82);
+  background: rgba(8, 20, 48, 0.65);
 }
 .set-panel-inner {
   display: flex;
@@ -378,8 +385,8 @@ button {
 .set-tab {
   padding: 5px 14px;
   border: 1px solid var(--border-light);
-  background: rgba(8,18,40,.75);
-  color: var(--text-dim);
+  background: rgba(14, 34, 72, 0.65);
+  color: var(--text);
   font-size: 12px; font-weight: 600; letter-spacing: .04em;
   border-radius: var(--radius);
   transition: var(--transition);
@@ -420,9 +427,8 @@ button {
 /* Tab-Leiste direkt als Panel-Header */
 #stats-tab-bar {
   display: flex;
-  background: rgba(3,8,20,.92);
+  background: rgba(6, 16, 40, 0.85);
   border-bottom: 1px solid var(--border-light);
-  /* Klebend oben wenn Stats-Panel scrollt */
   position: sticky;
   top: 0;
   z-index: 10;
@@ -450,7 +456,7 @@ button {
 .stats-section { margin-bottom: 14px; }
 .stats-section-title {
   font-size: 10px; font-weight: 700; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--gold-dim);
+  text-transform: uppercase; color: var(--gold);
   border-bottom: 1px solid var(--border-light);
   padding-bottom: 4px; margin-bottom: 6px;
 }
@@ -459,9 +465,9 @@ button {
   padding: 4px 6px; border-radius: 3px;
   transition: var(--transition); gap: 12px;
 }
-.stat-row:hover { background: rgba(126,207,255,.06); }
-.stat-row:nth-child(even) { background: rgba(255,255,255,.016); }
-.stat-row:nth-child(even):hover { background: rgba(126,207,255,.06); }
+.stat-row:hover { background: rgba(144,216,255,.08); }
+.stat-row:nth-child(even) { background: rgba(255,255,255,.028); }
+.stat-row:nth-child(even):hover { background: rgba(144,216,255,.08); }
 .stat-name  { color: var(--text-dim); font-size: 13px; white-space: nowrap; }
 .stat-value { color: var(--text-bright); font-size: 13px; font-weight: 600; text-align: right; white-space: nowrap; }
 .stat-value.buffed { color: var(--green); }
