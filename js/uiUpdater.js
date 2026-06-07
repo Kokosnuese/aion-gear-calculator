@@ -73,7 +73,8 @@ function updateSlotUI(
 
     }
 
-}function updateSlotUI(
+}
+function updateSlotUI(
     slot,
     item
 ){
@@ -103,5 +104,55 @@ function updateSlotUI(
     icon.src =
         "assets/icons/" +
         item.icon;
+
+}
+
+function renderStats(
+    stats
+){
+
+    const container =
+        document.getElementById(
+            "statsList"
+        );
+
+    if(!container)
+        return;
+
+    container.innerHTML = "";
+
+    Object.entries(
+        stats
+    ).forEach(
+
+        ([name,value]) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "stat-row";
+
+            row.innerHTML = `
+
+                <span>
+                    ${name}
+                </span>
+
+                <span>
+                    ${value}
+                </span>
+
+            `;
+
+            container.appendChild(
+                row
+            );
+
+        }
+
+    );
 
 }
