@@ -320,3 +320,31 @@ button:hover{
 
     border-color:#d6b96f;
 }
+
+.gear-layout{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        180px
+        1fr;
+
+    gap:20px;
+
+    align-items:start;
+}
+
+.character-area{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+}
+
+#characterImage{
+
+    width:180px;
+}
