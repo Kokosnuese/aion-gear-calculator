@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aion Gear Calculator — 4.x EU</title>
+  <meta name="description" content="Gear calculator for Aion 4.x EU — compare sets, calculate stats, manage skill amplifications.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <span class="logo-text">AION <span class="logo-accent">GEAR</span> CALCULATOR</span>
+    </div>
+    <div class="header-version">4.x · EU</div>
+  </div>
+</header>
+
+<!-- MAIN GRID -->
+<div id="calculator">
+
+  <!-- LEFT COLUMN: Equipment + Set Panel -->
+  <div id="left-column">
+
+    <!-- EQUIPMENT PANEL -->
+    <div id="equipment-panel" class="panel">
+      <div class="panel-header">
+        <img id="classEmblem" src="" alt="" class="class-emblem">
+        <div class="class-selector-inline">
+          <select id="classSelector" title="Select class"></select>
+        </div>
+      </div>
+      <div id="gear-layout">
+        <!-- slots are injected by ui.js as individual .equip-slot elements -->
+        <div id="setBonusArea"></div>
+      </div>
+    </div>
+
+    <!-- SET PANEL -->
+    <div id="set-panel" class="panel">
+      <div class="set-panel-inner">
+        <div id="set-tabs"></div>
+        <div class="set-panel-actions">
+          <button id="addSetBtn"    class="btn-add-set">+ New Set</button>
+          <button id="saveShareBtn" class="btn-share">🔗 Share</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Stats Panel -->
+  <div id="stats-panel" class="panel">
+
+    <div id="stats-tab-bar">
+      <button class="tab-btn active" data-tab="characteristics">Characteristics</button>
+      <button class="tab-btn"        data-tab="amplification">Amplification</button>
+      <button class="tab-btn"        data-tab="comparison">Comparison</button>
+    </div>
+
+    <!-- Tab: Characteristics -->
+    <div id="tab-characteristics" class="tab-content active">
+      <div class="stats-section" id="statsGeneral"></div>
+      <div class="stats-section" id="statsPvp"></div>
+      <div class="stats-section" id="statsOffense"></div>
+      <div class="stats-section" id="statsDefense"></div>
+    </div>
+
+    <!-- Tab: Amplification -->
+    <div id="tab-amplification" class="tab-content">
+      <div id="amp-panel">
+        <div class="amp-intro">
+          <p>Select passive skills and amplifications to include in stat calculations.</p>
+        </div>
+        <div id="amp-skills"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Comparison -->
+    <div id="tab-comparison" class="tab-content">
+      <div class="placeholder-msg">
+        <div class="placeholder-icon">⚖</div>
+        <p>Create at least two sets to compare them.</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ITEM MODAL -->
+<div id="itemModal">
+  <div id="itemModalContent">
+    <div class="modal-header">
+      <h3 id="modalSlotTitle">Select Item</h3>
+      <button id="closeModal" class="btn-close">✕</button>
+    </div>
+    <input id="itemSearchInput" type="text" placeholder="Search item by name…" autocomplete="off">
+    <div id="itemResults"></div>
+  </div>
+</div>
+
+<!-- TOOLTIP -->
+<div id="tooltip"></div>
+
+<!-- SHARE MODAL -->
+<div id="shareModal">
+  <div id="shareModalContent">
+    <div class="modal-header">
+      <h3>Share Build</h3>
+      <button id="closeShareModal" class="btn-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Copy this URL to share your gear build:</p>
+      <div class="share-url-row">
+        <input id="shareUrlInput" type="text" readonly>
+        <button id="copyUrlBtn" class="btn-copy">Copy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/db-loader.js"></script> 
+<script src="js/engine.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
