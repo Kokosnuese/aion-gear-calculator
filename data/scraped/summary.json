@@ -1,0 +1,51 @@
+{
+  "items": {
+    "accessory": {
+      "belt": 1037,
+      "earring": 1181,
+      "headgear": 4146,
+      "necklace": 1032,
+      "ring": 1263
+    },
+    "armor": {
+      "chain": 6971,
+      "cloth": 6749,
+      "leather": 7126,
+      "plate": 6322,
+      "shield": 1464
+    },
+    "weapon": {
+      "bow": 1260,
+      "cipher_blade": 1001,
+      "dagger": 1396,
+      "greatsword": 1252,
+      "mace": 1225,
+      "orb": 1213,
+      "polearm": 1167,
+      "spellbook": 1317,
+      "staff": 1251,
+      "sword": 1612
+    },
+    "wing": {
+      "wing": 315
+    }
+  },
+  "skills": {
+    "assassin": {
+      "passive": 934
+    },
+    "gladiator": {
+      "passive": 934
+    },
+    "ranger": {
+      "passive": 934
+    },
+    "sorcerer": {
+      "passive": 934
+    },
+    "templar": {
+      "passive": 934
+    }
+  },
+  "generated_at": "2026-06-09T20:38:33"
+}
